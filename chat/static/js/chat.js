@@ -3,15 +3,45 @@ window.onload = function () {
     var div1 = document.getElementById('content');
     div1.scrollTop = div1.scrollHeight;
     //初始化展示两条信息
-    var leftMsg = 'XXX好友上线了'
+    var leftMsg = 'Are you OK?'
     var initLeft = createLeftDiv('发送方方', leftMsg);
     appendMsg(initLeft)
-    var rightMsg = "收到XXX好友上线提示"
+    var rightMsg = "fine"
     var initRight = createRightDiv('接收方', rightMsg);
     appendMsg(initRight)
+    var joinDiv = createJoinDiv('XXX加入群聊')
+    console.log(joinDiv)
+    appendMsg(joinDiv)
+    wslink()
 
 }
+// chat start
+function wslink() {
+    wsserver = new WebSocket('ws://47.94.195.251:9503');
 
+    wsserver.onopen = function (msg) {
+        console.log(1111)
+        console.log(msg)
+        
+        // message = JSON.parse(msg)
+        // createLeftDiv(message['no'], message['no'] + '已进入聊天');
+    }
+
+    wsserver.onmessage = function (msg) {
+        message = JSON.parse(msg.data)
+        console.log(message.no, message.msg);
+        var initLeft = createLeftDiv(message.no, message.msg);
+        appendMsg(initLeft)
+    }
+
+    wsserver.onclose = function (msg) {
+        message = JSON.parse(msg)
+        var initLeft = createLeftDiv(message['no'], message['no'] + '已离开聊天');
+        appendMsg(initLeft)
+    }
+}
+
+// chat end
 
 function sendMsg() {
     var text = document.getElementById('textMsg');
@@ -21,7 +51,7 @@ function sendMsg() {
         var newDiv = createRightDiv('接收方', message);
         appendMsg(newDiv)
         text.value = '';
-
+        wsserver.send(message)
     }
 
 }
@@ -103,6 +133,20 @@ function createLeftDiv(user, msg) {
 
 }
 
+// 创建加入群聊的消息提示
+function createJoinDiv(joinMsg){
+    var joinDiv = document.createElement('div');
+    joinDiv.className = 'enterMsg';
+    var span = document.createElement('span');
+    span.innerText = joinMsg
+    joinDiv.appendChild(span);
+    var clearDiv = document.createElement('div');
+    clearDiv.className = 'clearfloat';
+    joinDiv.appendChild(clearDiv)
+
+    return joinDiv
+}
+
 function enterMsg(keyCode) {
     var text = document.getElementById('textMsg');
     message = text.value
@@ -121,3 +165,5 @@ function showScroll() {
     contentDiv.setAttribute('.content::-webkit-scrollbar')
 
 }
+
+
