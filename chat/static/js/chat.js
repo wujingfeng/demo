@@ -12,36 +12,8 @@ window.onload = function () {
     var joinDiv = createJoinDiv('XXX加入群聊')
     console.log(joinDiv)
     appendMsg(joinDiv)
-    wslink()
 
 }
-// chat start
-function wslink() {
-    wsserver = new WebSocket('ws://47.94.195.251:9503');
-
-    wsserver.onopen = function (msg) {
-        console.log(1111)
-        console.log(msg)
-        
-        // message = JSON.parse(msg)
-        // createLeftDiv(message['no'], message['no'] + '已进入聊天');
-    }
-
-    wsserver.onmessage = function (msg) {
-        message = JSON.parse(msg.data)
-        console.log(message.no, message.msg);
-        var initLeft = createLeftDiv(message.no, message.msg);
-        appendMsg(initLeft)
-    }
-
-    wsserver.onclose = function (msg) {
-        message = JSON.parse(msg)
-        var initLeft = createLeftDiv(message['no'], message['no'] + '已离开聊天');
-        appendMsg(initLeft)
-    }
-}
-
-// chat end
 
 function sendMsg() {
     var text = document.getElementById('textMsg');
@@ -51,7 +23,6 @@ function sendMsg() {
         var newDiv = createRightDiv('接收方', message);
         appendMsg(newDiv)
         text.value = '';
-        wsserver.send(message)
     }
 
 }
