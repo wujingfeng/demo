@@ -85,9 +85,9 @@ a {
   margin-top: 20px;
 }
 
-.sendInfo span{
+/* .sendInfo span{
   background-color: #ffffff;
-}
+} */
 
 .receiveContent {
   float: right;
@@ -101,9 +101,9 @@ a {
   text-align: right;
   /* margin-right: 20px; */
 }
-.receiveInfo span {
+/* .receiveInfo span {
   background-color: #ffffff;
-}
+} */
 .clearfloat {
   clear: both;
 }
@@ -126,3 +126,16 @@ a {
     border-radius: 10px;
     background: #ccc;
 } */
+.enterMsg{
+  width: 100%;
+  text-align: center
+}
+.enterMsg span{
+  background-color: #DADADA;
+  border-radius: 3px;
+  color:#ffffff;
+  font-size: 12px;
+  display: inline-block;
+  padding:2px 5px;
+  
+}
