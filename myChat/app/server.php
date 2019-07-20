@@ -19,12 +19,18 @@ class Server
         $this->server = new swoole_websocket_server(self::HOST, self::PORT);
         //建立监听连接
         $this->server->on('open', [$this, 'onOpen']);
+
         //监听消息接收事件
         $this->server->on('message', [$this, 'onMessage']);
         //监听关闭事件
         $this->server->on('close', [$this, 'onClose']);
         //开启服务
         $this->server->start();
+    }
+
+    public function ayscMysqlConnect($config)
+    {
+        $db = new swoole_mysql($config);
     }
 
     public function onOpen($server, $request)
